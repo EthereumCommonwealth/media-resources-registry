@@ -14,7 +14,7 @@ contract MediaRegistry {
         string metadata;
     }
     
-    function add_entry(string _name, string _link, string _metadata)
+    function add_entry(string _name, string _link, string _metadata) access_restriction
     {
         entries[bytes32( sha3( _name ) )].name     = _name;
         entries[bytes32( sha3( _name ) )].link     = _link;
@@ -22,7 +22,7 @@ contract MediaRegistry {
         official_links[_link] = true;
     }
     
-    function remove_entry(string _name)
+    function remove_entry(string _name) access_restriction
     {
         official_links[entries[bytes32(sha3(_name))].link] = false;
         delete(entries[bytes32( sha3( _name ) )].name);
@@ -48,6 +48,11 @@ contract MediaRegistry {
     function fire(address _who) only_owner
     {
         moderator[_who] = false;
+    }
+    
+    function transfer_ownership(address _who) only_owner
+    {
+        owner = _who;
     }
     
     modifier only_owner
