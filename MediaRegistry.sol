@@ -7,6 +7,11 @@ contract MediaRegistry {
     mapping (bytes32 => entry) entries;
     mapping (string  => bool)  official_links;
     
+    function MediaRegistry()
+    {
+        owner = 0x94bFC161f889224b00A49C94812d456Ca54A7415;
+    }
+    
     struct entry
     {
         string name;
