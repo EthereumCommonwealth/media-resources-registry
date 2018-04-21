@@ -2,6 +2,9 @@ pragma solidity ^0.4.11;
 
 contract MediaRegistry {
     
+    event Registered(string _name);
+    event Removed(string _name);
+    
     address public owner; 
     mapping (address => bool)  moderator;
     mapping (bytes32 => entry) entries;
@@ -25,6 +28,7 @@ contract MediaRegistry {
         entries[bytes32( sha3( _name ) )].link     = _link;
         entries[bytes32( sha3( _name ) )].metadata = _metadata;
         official_links[_link] = true;
+        Registered(_name);
     }
     
     function remove_entry(string _name) access_restriction
@@ -33,6 +37,7 @@ contract MediaRegistry {
         delete(entries[bytes32( sha3( _name ) )].name);
         delete(entries[bytes32( sha3( _name ) )].link);
         delete(entries[bytes32( sha3( _name ) )].metadata);
+        Removed(_name);
     }
     
     function get_entry(string _name) constant returns (string, string, string)
